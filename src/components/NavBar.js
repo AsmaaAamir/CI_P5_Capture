@@ -3,11 +3,10 @@ import { Container,  Nav, Navbar } from "react-bootstrap";
 import logo from '../../src/assets/new_logo.png';
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { CurrentUserContext } from "../App";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 const NavBar = () => {
-    const currentUser = useContext(CurrentUserContext)
+    const currentUser = useCurrentUser();
     const loggedOutMenu = (
         <>
             <NavLink exact to="/signin" className={styles.NavLink} activeClassName={styles.Active} >
