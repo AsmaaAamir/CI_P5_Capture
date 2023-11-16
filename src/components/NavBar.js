@@ -52,11 +52,6 @@ const NavBar = () => {
 
     const loggedOutMenu = (
             <>
-                <NavLink to="/" className={styles.NavLink} activeClassName={styles.Active} >
-                    <i class="fas fa-home">
-                        Home
-                    </i> 
-                </NavLink>
                 <NavLink exact to="/signin" className={styles.NavLink} activeClassName={styles.Active} >
                 <i class="fas fa-sign-in-alt">
                         Sign In
@@ -82,7 +77,11 @@ const NavBar = () => {
             <Navbar.Toggle ref={ref} onClick={() => setExpanded(!expanded)} aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto text-left">
-
+                <NavLink to="/" className={styles.NavLink} activeClassName={styles.Active} >
+                    <i class="fas fa-home">
+                        Home
+                    </i> 
+                </NavLink>
                    {currentUser ? loggedInMenu : loggedOutMenu}
                 </Nav>
             </Navbar.Collapse>
