@@ -6,7 +6,7 @@ import WelcomePage from "./components/WelcomePage";
 import './api/axiosDefaults';
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
-import AddPostForm from "../src/pages/posts/AddPostForm";
+import AddPostForm from "./pages/posts/AddPostForm";
 
 
 function App() {
