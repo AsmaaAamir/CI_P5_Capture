@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+.App{
+    font-family: 'Tsukimi Rounded', sans-serif;;
+    min-height: 100vh;
+    background-color: black;  
+}
+
+
+.Body{
+    padding-top: 130px;
+}
+
+i{
+    color: blanchedalmond;
+    padding: 8px;
+    font-size: 1.3rem;
+    padding-left: 15px;
+}
+
+i:hover{
+    font-size: 1.6rem;
+    color: rgb(234, 136, 17);
+}
