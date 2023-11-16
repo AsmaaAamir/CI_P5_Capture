@@ -1,0 +1,40 @@
+.none{
+    font-size:1rem;
+}
+.Form{
+    display: flex;
+    flex-direction: row;
+    padding: 30xp 30px;
+}
+.Row{
+    flex:0.8;
+}
+html{
+    color:black;
+}
+
+span{
+    font-family:'Tsukimi Rounded', sans-serif;
+}
+
+.Link{
+    text-decoration: none;
+    text-align: center;
+    align-items: center;
+    display: block;
+    margin: auto;
+    color:  rgb(234, 136, 17);
+
+}
+.Link:hover{
+    text-decoration: none;
+    cursor: pointer;
+    color: bisque;
+}
+
+.Header{
+    text-align: center;   
+    padding: 20px;
+    color: rgb(234, 136, 17);
+    font-weight: bolder;
+}
