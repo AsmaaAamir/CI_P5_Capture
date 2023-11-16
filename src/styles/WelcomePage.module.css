@@ -1,0 +1,32 @@
+.Container{
+    margin: auto;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color:white;
+    text-align: center;
+}
+.Container h1 p{
+    text-align: center;
+    padding-top: 100px;
+}
+.WelcomeText{
+    padding-top: 150px;
+}
+.WelcomeButton1{
+    margin: 8px;
+}
+.WelcomeButton2{
+    margin: 8px;
+}
+.WelcomeButton1:hover {
+    font-size:1.3rem;
+    font-weight: bolder;
+    color: rgb(234, 136, 17);
+}
+.WelcomeButton2:hover{
+    font-size:1.3rem;
+    font-weight: bolder;
+    color: rgb(234, 136, 17);
+}

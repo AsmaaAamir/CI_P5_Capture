@@ -1,0 +1,24 @@
+.Button{
+    font-family: 'Tsukimi Rounded', sans-serif;;
+    font-size: 1.3rem;
+    font-weight: bolder;
+    color: bisque;
+    align-items: center;
+    padding: 6px;
+    background-color: black;
+    border: none;
+}
+
+.Button:hover{
+    font-size: 1.6rem;
+    color: rgb(234, 136, 17);
+    background-color: black;
+    border: none;
+}
+
+.Width{
+    width: 100%;
+}
+.Wide{
+    width: 50%;
+}
