@@ -25,7 +25,7 @@ const NavBar = () => {
     };
 
     const addPost = (
-        <NavLink to="/addpost" className={styles.NavLink} activeClassName={styles.Active} >
+        <NavLink to="/posts/addpost" className={styles.NavLink}>
             <i class="fas fa-plus-square">
                 Add Post
             </i>
