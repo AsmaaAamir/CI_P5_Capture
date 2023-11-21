@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {Form,  Row, Col, Container, Image, Button, Alert} from "react-bootstrap";
-import upload from "../../assets/uploading-post.png";
 import styles from "../../styles/AddEditPost.module.css";
-import Asset from "../../components/Asset";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import {useHistory} from "react-router";
@@ -26,6 +24,21 @@ function AddPostForm(){
     const imageInput = useRef(null);
     const history = useHistory();
     const { id } = useParams(); 
+
+    useEffect(() => {
+        const handleMount = async () =>{
+            try { 
+                const {data} = await axiosReq.get(`/posts/${id}/`);
+                const { title, description, category, image, is_owner } = data;
+                
+                is_owner ? setPostData({ title, description, category, image}) : history.push("/");
+        } catch(err){
+            //console.log(err)
+        }
+        };
+        handleMount();
+    }, [history, id]);
+
 
     const handleChange = (event) => {
         setPostData({
@@ -51,11 +64,14 @@ function AddPostForm(){
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category", category);
-        formData.append("image", imageInput.current.files[0]);
+
+        if (imageInput?.current?.files[0]){
+            formData.append("image", imageInput.current.files[0]);
+        }
         
         try {
-            const { data } = await axiosReq.post("/posts/", formData);
-            history.push(`/posts/${data.id}`);
+            await axiosReq.put(`/posts/${id}/`, formData);
+            history.push(`/posts/${id}`);
         } catch (err) {
             //console.log(err);
             if (err.response?.status !== 401){
@@ -176,8 +192,6 @@ function AddPostForm(){
                 <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
                     <Container className={`${appStyles.Body} ${styles.Container} d-flexflex-column justify-content-center`}>
                         <Form.Group className="text-center">
-                            {image ? (
-                                <>
                                 <figure>
                                     <Image className={appStyles.Image} src={image} rounded />
                                 </figure>
@@ -187,18 +201,13 @@ function AddPostForm(){
                                         <p >Change the image</p>
                                     </Form.Label>
                                 </div>
-                                </>
-                            ) : (
-                            <Form.Label className="d-flex justify-content-center"
-                                    htmlFor="image-upload">
-                                <Asset className={styles.Textlabel}
-                                    src={upload}
-                                    message="Click to upload an image"/>
-                            </Form.Label>
-                            )}
                             <Form.File id="image-upload" accept="image/*" onChange={handleChangeImage} ref={imageInput}/>
                         </Form.Group>
-                        <div className="d-md-none">{textFields}</div>
+                        {errors?.image?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>))}
+                        <div className="d-md-none">{textFields}</div>    
                     </Container>
                 </Col>
                 <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
