@@ -1,0 +1,12 @@
+.Owner {
+    font-weight: bolder;
+    color:rgb(234, 136, 17);
+    margin-right: 8px;
+}
+
+.Date{
+    color: rgb(228, 219, 204);
+}
+.CommentText{
+    color: rgb(11, 195, 236)
+}
