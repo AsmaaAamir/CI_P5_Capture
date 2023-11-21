@@ -24,11 +24,11 @@ const Profile = (props) => {
             </div>
             <div className={`text=right ${!mobile && "ml-auto"}`}>
                 {!mobile && currentUser && !is_owner && (following_id ? (
-                    <Button className={`${btnStyles.Button} `}>
+                    <Button className={`${btnStyles.Button} ${btnStyles.Follow}`} onClick={() => {}}>
                             Unfollow 
                     </Button>
                 ) : (
-                    <Button className={`${btnStyles.Button}`}>
+                    <Button className={`${btnStyles.Button} ${btnStyles.Follow}`} onClick={() => {}}>
                             Follow 
                     </Button>
                 ))}
