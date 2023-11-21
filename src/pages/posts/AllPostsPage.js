@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
-import {Col, Row, Container } from "react-bootstrap";
+import {Col, Row, Container, Form } from "react-bootstrap";
 import NoResult from "../../assets/no-result.png";
 import Post from "../posts/Post";
 import Asset from "../../components/Asset";
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import appStyles from "../../App.module.css";
-
-
+import InfiniteScroll from "react-infinite-scroll-component";
+import styles from "../../styles/AllPostsPage.module.css";
+import { fetchMoreData } from "../../utils/utils";
 
 function AllPostsPage({ message, filter = ""}) {
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] =  useState(false);
     const { pathname } = useLocation();
+    const [ query, setQuery ] = useState("");
 
     useEffect (() => {
         const fetchPosts =  async () => {
             try {
-                const { data } = await axiosReq.get(`/posts/?${filter}`);
+                const { data } = await axiosReq.get(`/posts/?${filter}search=${query}`);
                 setPosts(data);
                 setHasLoaded(true);
             } catch (err) {
@@ -26,29 +28,48 @@ function AllPostsPage({ message, filter = ""}) {
         };
 
         setHasLoaded(false);
-            fetchPosts(); },
-            [filter, pathname]);
+        const timer = setTimeout(() => {
+            fetchPosts();
+        }, 1000);
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [filter, query, pathname]);
 
     return (
         <Row className="h-100">
             <Col className="py-2 p-0 p-lg-2" lg={8}>
                 <p>Popular Profiles mobile</p>
+                <i className={`fas fa-search ${styles.SearchIcon}`} />
+                <Form className={styles.SearchBar} onSubmit={(event) => event.preventDefault()}>
+                    <Form.Control 
+                        type="text"
+                        className="mr-sm-2"
+                        placeholder="Search"
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}/>
+                </Form>
+
                 {hasLoaded ? (
                     <>
-                        {posts.results.length ? (
-                            posts.results.map((post) => (
-                                <Post key={post.id} {...post} setPosts={setPosts} />
-                            ))
-                )  : (
-                    <Container className={appStyles.Body}>
-                        <Asset src={NoResult} message={message} />
+                        {posts.results.length ? ( <InfiniteScroll children={posts.results.map((post) => ( 
+                        <Post key={post.id} {...post} setPosts={setPosts} />
+                    ))}
+                    dataLength={posts.results.length}
+                    loader={<Asset Spinner />}
+                    hasMore={!!posts.next}
+                    next={() => fetchMoreData(posts, setPosts)}
+                    />
+                ) : (
+                    <Container className={styles.Body}>
+                        <Asset src={NoResult} message={message}/>
                     </Container>
                 )}
-                    </> 
-                ):(
-                    <Container className={appStyles.Body}>
-                        <Asset spinner />
-                    </Container>
+            </>
+                ) : (
+                    <Container className={styles.Content}>
+                    <Asset spinner />
+                </Container>
                 )}
             </Col>
             <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
@@ -56,4 +77,7 @@ function AllPostsPage({ message, filter = ""}) {
             </Col>
         </Row>
     );
-} export default AllPostsPage;
+} 
+
+
+export default AllPostsPage;
