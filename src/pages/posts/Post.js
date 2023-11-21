@@ -4,8 +4,9 @@ import { axiosRes } from '../../api/axiosDefaults';
 import Avatar from '../../components/Avatar';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import styles from '../../styles/Post.module.css';
-import { Link } from "react-router-dom";
-import MoreDropDown from "../../components/MoreDropdown";
+import { Link, useHistory } from "react-router-dom";
+import { MoreDropdown } from '../../components/MoreDropdown';
+
 
 const Post = (props) => {
     const {
@@ -25,6 +26,7 @@ const Post = (props) => {
 
         const currentUser = useCurrentUser();
         const is_owner = currentUser?.username === owner;
+        const history = useHistory();
 
         const handleEdit = () => {
             history.push(`/posts/${id}/edit`)
@@ -32,7 +34,7 @@ const Post = (props) => {
 
         const handleDelete = async () => {
             try{
-                await asioxRes.delete(`/posts/${id}/`);
+                await axiosRes.delete(`/posts/${id}/`);
                 history.goBack();
             } catch (err) {
                 //console.log
@@ -83,7 +85,7 @@ const Post = (props) => {
                     </Link>
                     <div className="d-flex align-items-center">
                         <span>{updated_at}</span>
-                        {is_owner && postPage && <MoreDropDown handleDelete={handleDelete} handleEdit={handleEdit}/>}
+                        {is_owner && postPage && <MoreDropdown handleDelete={handleDelete} handleEdit={handleEdit}/>}
                     </div>
                 </Media>
             </Card.Body>
