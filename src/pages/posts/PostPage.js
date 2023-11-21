@@ -1,6 +1,5 @@
 import React, { useEffect, useState} from "react";
 import { Col, Row, Container } from "react-bootstrap";
-import styles from "../../styles/PostPage.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
@@ -28,7 +27,7 @@ function PostPage() {
         <Col className="py-2 p-0 p-lg-2" lg={8}>
             <p> Popular profile for mobile</p>
             <Post {...post.results[0]} setPosts={setPost} postPage />
-            <Container className={styles.Content}> Comment
+            <Container> Comment
             </Container>
         </Col>
         <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
