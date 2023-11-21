@@ -8,7 +8,7 @@ function EditCommentForm(props) {
     const {id, content, setShowEditForm, setComments} = props;
     const [formContent, setFormContent] = useState(content);
 
-    const handleChange=  (e) => {
+    const handleChange = (e) => {
         setFormContent(e.target.value);
     };
 
