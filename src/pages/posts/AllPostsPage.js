@@ -9,6 +9,7 @@ import appStyles from "../../App.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styles from "../../styles/AllPostsPage.module.css";
 import { fetchMoreData } from "../../utils/utils";
+import PopularProfiles from "../PopularProfiles";
 
 function AllPostsPage({ message, filter = ""}) {
     const [posts, setPosts] = useState({ results: [] });
@@ -73,7 +74,7 @@ function AllPostsPage({ message, filter = ""}) {
                 )}
             </Col>
             <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-                <p>Popular profiles for desktop</p>
+                <PopularProfiles />
             </Col>
         </Row>
     );
