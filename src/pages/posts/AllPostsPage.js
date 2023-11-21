@@ -9,7 +9,7 @@ import appStyles from "../../App.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styles from "../../styles/AllPostsPage.module.css";
 import { fetchMoreData } from "../../utils/utils";
-import PopularProfiles from "../PopularProfiles";
+import PopularProfiles from "../profiles/PopularProfiles";
 
 function AllPostsPage({ message, filter = ""}) {
     const [posts, setPosts] = useState({ results: [] });

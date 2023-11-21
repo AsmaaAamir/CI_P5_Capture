@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { axiosReq } from "../api/axiosDefaults";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
-import Asset from "../components/Asset";
-import appStyles from "../App.module.css";
-import Profile from "./profiles/Profile";
+import { axiosReq } from "../../api/axiosDefaults";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import Asset from "../../components/Asset";
+import appStyles from "../../App.module.css";
+import Profile from "./Profile";
 
 
 const PopularProfiles = ({ mobile }) => {
