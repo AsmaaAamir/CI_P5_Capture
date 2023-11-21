@@ -1,76 +1,63 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Form, Button, Row, Col, Container, Alert, Image } from "react-bootstrap";
-import { useHistory, useParams } from "react-router"
-
-import { axiosReq } from "../../api/axiosDefaults";
+import React, { useState, useRef } from "react";
+import {Form,  Row, Col, Container, Image, Button, Alert} from "react-bootstrap";
+import upload from "../../assets/uploading-post.png";
 import styles from "../../styles/AddEditPost.module.css";
-
+import Asset from "../../components/Asset";
 import btnStyles from "../../styles/Button.module.css";
+import appStyles from "../../App.module.css";
+import {useHistory} from "react-router";
+import { axiosReq } from "../../api/axiosDefaults";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-function EditPostForm() {
+
+
+function AddPostForm(){
     const [errors, setErrors] = useState({});
-    const [postData, setPostData ] = useState({
+
+    const [postData, setPostData] = useState({
         title: "",
         description: "",
         category: "",
-        image: "", 
+        image: "",
     });
 
     const { title, description, category, image } = postData;
-    
-    const imageInput = useRef(null); 
+
+    const imageInput = useRef(null);
     const history = useHistory();
-    const { id } = useParams();
+    const { id } = useParams(); 
 
-
-    useEffect(() => {
-        const handleMount = async () =>{
-            try {
-                const { data } = await axiosReq.get(`/posts/${id}/`)
-                const { title, description, category, image, is_owner } = data;
-
-                is_owner ? setPostData({ title, description, category, image }) : history.push("/");
-            } catch (err) {
-                //consol.log(err);
-            }
-        }; handleMount();
-    }, [history, id]);
-
-
-    const handleChange = (e) =>{
+    const handleChange = (event) => {
         setPostData({
             ...postData,
-            [e.target.name]: e.target.value,
+            [event.target.name]: event.target.value,
         });
     };
 
-    const handleChangeImage = (e) => {
-        if (e.target.files.length) {
+    const handleChangeImage = (event) => {
+        if (event.target.files.length) {
             URL.revokeObjectURL(image);
             setPostData({
                 ...postData,
-                image: URL.createObjectURL(e.target.files[0]),
+                image: URL.createObjectURL(event.target.files[0]),
             });
         }
     };
 
-    const handleSubmit = async (e) =>{
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         const formData = new FormData();
 
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category", category);
+        formData.append("image", imageInput.current.files[0]);
         
-
-        if (imageInput?.current?.files[0]){
-            formData.append("image",imageInput.current.files[0]);
-        }
         try {
-            await axiosReq.put(`/posts/${id}/`, formData);
-            history.push(`/posts/${id}`);
+            const { data } = await axiosReq.post("/posts/", formData);
+            history.push(`/posts/${data.id}`);
         } catch (err) {
-            //consol.log (err);
+            //console.log(err);
             if (err.response?.status !== 401){
                 setErrors(err.response?.data);
             }
@@ -79,12 +66,12 @@ function EditPostForm() {
 
     const textFields = (
         <div className="text-center">
-            <Form.Group>
-                <Form.Label>Title</Form.Label>
+             <Form.Group>
+                <Form.Label className={styles.Label}>Title</Form.Label>
                 <Form.Control 
-                    type="text" 
-                    name="title" 
-                    value={title} 
+                    type="text"
+                    name="title"
+                    value={title}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -93,18 +80,17 @@ function EditPostForm() {
                     {message}
                 </Alert>
             ))}
-
             <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <Form.Control 
-                    type="text" 
-                    row={6}
-                    name="description" 
-                    value={description} 
-                    onChange={handleChange}
-                />
-            </Form.Group>
-            {errors?.description?.map((message, idx) => (
+                <Form.Label className={styles.Label}>Description</Form.Label>
+                    <Form.Control 
+                        type="text"
+                        name="description"
+                        rows={6}
+                        value={description}
+                        onChange={handleChange}
+                    />
+                </Form.Group>
+                {errors?.description?.map((message, idx) => (
                 <Alert variant="warning" key={idx}>
                     {message}
                 </Alert>
@@ -175,14 +161,12 @@ function EditPostForm() {
                     {message}
                 </Alert>
             ))}
-
-            <Button className={`${btnStyles.Button}`} onClick={() => 
-                history.goBack()}> 
-                Cancel </Button>
-            
-            <Button className={styles.Button} type="submit">
-                Save</Button>
-
+            <Button className={`${btnStyles.Button}`} onClick={() => history.goBack()}>
+                Cancel
+            </Button>
+            <Button className={`${btnStyles.Button}`} type="submit">
+                Post
+            </Button>
         </div>
     );
 
@@ -190,40 +174,42 @@ function EditPostForm() {
         <Form onSubmit={handleSubmit}>
             <Row>
                 <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
-                    <Container className={`${styles.Content} d-flex flex-column justify-content-center`}>
+                    <Container className={`${appStyles.Body} ${styles.Container} d-flexflex-column justify-content-center`}>
                         <Form.Group className="text-center">
-                            <figure>
-                                <Image className={styles.Image} src={image} rounded />
-                            </figure>
-                            <div>
-                            <Form.Label className={`${styles.Button} btn`} 
-                            htmlFor="image-upload" >
-                                Change the Image
+                            {image ? (
+                                <>
+                                <figure>
+                                    <Image className={appStyles.Image} src={image} rounded />
+                                </figure>
+                                <div>
+                                    <Form.Label  className={`${styles.Button} ${styles.Colour} btn`}
+                                        htmlFor="image-upload">
+                                        <p >Change the image</p>
+                                    </Form.Label>
+                                </div>
+                                </>
+                            ) : (
+                            <Form.Label className="d-flex justify-content-center"
+                                    htmlFor="image-upload">
+                                <Asset className={styles.Textlabel}
+                                    src={upload}
+                                    message="Click to upload an image"/>
                             </Form.Label>
-                            </div>
-                            <Form.File 
-                                id="image-upload"
-                                accept="image/*"
-                                onChange={handleChangeImage}
-                                ref={imageInput}
-                                />
+                            )}
+                            <Form.File id="image-upload" accept="image/*" onChange={handleChangeImage} ref={imageInput}/>
                         </Form.Group>
-                        {errors?.image?.map((message, idx) => {
-                        <Alert variant="warning" key={idx}>
-                            {message}
-                        </Alert>
-                        })}
                         <div className="d-md-none">{textFields}</div>
                     </Container>
                 </Col>
-                <Col md={5} lg={4} className="d-none d-md-blokc p-o p-md-2">
-                        <Container className={styles.content}>
-                            {textFields}
-                        </Container>
+                <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
+                    <Container className={appStyles.Body}>
+                        {textFields}
+                    </Container>
                 </Col>
-             </Row>
+            </Row>
         </Form>
     );
 
 }
-export default EditPostForm;
+
+export default AddPostForm;
