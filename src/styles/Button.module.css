@@ -1,16 +1,17 @@
 .Button{
     font-family: 'Tsukimi Rounded', sans-serif;;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: bolder;
     color: bisque;
     align-items: center;
     padding: 6px;
     background-color: black;
     border: none;
+
 }
 
 .Button:hover{
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     color: rgb(234, 136, 17);
     background-color: black;
     border: none;

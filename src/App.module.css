@@ -10,8 +10,15 @@
 .Body{
     padding-top: 130px;
 }
+.Content{
+    background-color:rgb(60, 58, 58) ;
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(234, 136, 17);
+    font-size: 1.2rem;
+}
 i{
-    color: blanchedalmond;
+    color: rgb(229, 191, 134);
     padding: 8px;
     font-size: 1.3rem;
     padding-left: 15px;

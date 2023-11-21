@@ -3,9 +3,11 @@ import { Container } from "react-bootstrap";
 import { axiosReq } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import Asset from "../components/Asset";
+import appStyles from "../App.module.css";
+import Profile from "./profiles/Profile";
 
 
-const PopularProfiles = () => {
+const PopularProfiles = ({ mobile }) => {
 
     const [profileData, setprofileData] = useState({
         pageProfile: { results: []},
@@ -30,13 +32,21 @@ const PopularProfiles = () => {
     }, [currentUser]);
 
     return (
-        <Container> 
+        <Container className={`${appStyles.Content} ${ mobile && "d-lg-none text-center mb-3"}`}> 
             {popularProfiles.results.length ? (
                 <>
-                    <p>Most followed profiles.</p>
-                        {popularProfiles.results.map((profile) => (
-                                <p key={profile.id}>{profile.owner}</p>
+                    <p>Most followed profiles</p>
+                    {mobile ? ( 
+                        <div className="d-flex justify-content-around">
+                            {popularProfiles.results.slice(0, 4).map((profile) => (
+                                <Profile key={profile.id} profile={profile} mobile/>
                             ))}
+                            </div>
+                        ) : (
+                            popularProfiles.results.map((profile) => (
+                                <Profile key={profile.id} profile={profile} />
+                            ))
+                             )}
                 </>
             ) : (
                 <Asset spinner />
