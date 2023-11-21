@@ -5,6 +5,7 @@ import Avatar from '../../components/Avatar';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import styles from '../../styles/Post.module.css';
 import { Link } from "react-router-dom";
+import MoreDropDown from "../../components/MoreDropdown";
 
 const Post = (props) => {
     const {
@@ -24,6 +25,20 @@ const Post = (props) => {
 
         const currentUser = useCurrentUser();
         const is_owner = currentUser?.username === owner;
+
+        const handleEdit = () => {
+            history.push(`/posts/${id}/edit`)
+        };
+
+        const handleDelete = async () => {
+            try{
+                await asioxRes.delete(`/posts/${id}/`);
+                history.goBack();
+            } catch (err) {
+                //console.log
+            }
+        };
+
 
         const handleLike = async () => { 
             try {
@@ -68,7 +83,7 @@ const Post = (props) => {
                     </Link>
                     <div className="d-flex align-items-center">
                         <span>{updated_at}</span>
-                        {is_owner && postPage && "..."}
+                        {is_owner && postPage && <MoreDropDown handleDelete={handleDelete} handleEdit={handleEdit}/>}
                     </div>
                 </Media>
             </Card.Body>
