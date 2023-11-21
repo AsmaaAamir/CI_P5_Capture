@@ -1,0 +1,17 @@
+.Post {
+    background-color: azure;
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.Heart {
+    color: rgb(236, 25, 25);
+}
+.Heart:Hover {
+    color:crimson;
+}
+
+.HeartOutline:hover{
+    color:rgb(242, 9, 9)
+}

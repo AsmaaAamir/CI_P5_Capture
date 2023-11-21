@@ -1,0 +1,10 @@
+.Heart {
+    color: rgb(236, 25, 25);
+}
+.Heart:Hover {
+    color:crimson;
+}
+
+.HeartOutline:hover{
+    color:rgb(236, 25, 25)
+}
