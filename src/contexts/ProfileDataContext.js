@@ -32,9 +32,14 @@ export const ProfileDataProvider = ({ children }) => {
                     followHelper(profile, clickedProfile, data.id)
                     ),
                 },
+                popularProfiles: {
+                    ...prevState.popularProfiles,
+                    results: prevState.popularProfiles.results.map((profile) => 
+                    followHelper(profile, clickedProfile, data.id)),
+                },
             }));
         } catch (err) {
-            //console.log(err);
+            console.log(err);
         }
     };
     /* Allow user to unfollow by clicking unfollow button */
@@ -51,13 +56,13 @@ export const ProfileDataProvider = ({ children }) => {
                 },
                 popualrProfiles: {
                     ...prevState.popularProfiles,
-                    results: prevState.popularProfiles.result.map((profile) => 
+                    results: prevState.popularProfiles.results.map((profile) => 
                     unfollowHelper(profile, clickedProfile)
                     ),
                 },
             }));
         } catch (err) {
-            //console.log(err);
+            console.log(err);
         }     
     };
   

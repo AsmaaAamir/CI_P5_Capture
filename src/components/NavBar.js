@@ -14,11 +14,13 @@ const NavBar = () => {
     const setCurrentUser = useSetCurrentUser();
 
     const { expanded, setExpanded, ref} = useClickOutsideToggle();
-
+    /* Allows users to logout, by remove current 
+    user and redirect to welcomepage */
     const handleSignOut = async () => {
         try {
             await axios.post("dj-rest-auth/logout/");
             setCurrentUser(null);
+            setExpanded(false)
         } catch (err) {
             console.log(err);
         }

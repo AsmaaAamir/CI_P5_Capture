@@ -33,7 +33,7 @@ function ProfilePage() {
             try {
                 const [{data: pageProfile}, {data: profilePosts }] = await Promise.all([
                     axiosReq.get(`/profiles/${id}/`),
-                    axiosReq.get(`/posts/?owner_profile=${id}`),
+                    axiosReq.get(`/posts/?owner__profile=${id}`),
                 ]);
                 setProfileData((prevState) => ({
                     ...prevState,
@@ -74,8 +74,8 @@ function ProfilePage() {
                     </Row>
                 </Col>
                 <Col lg={3} className="text-lg-right">
-                    {currentUser && !is_owner && (
-                        profile?.following_id ? (
+                    {currentUser && !is_owner && 
+                        (profile?.following_id ? (
                             <Button className={`${btnStyles.Button} ${btnStyles.ProfileFollow}`}
                                 onClick={()=> handleUnfollow(profile)} >
                                     Unfollow 
