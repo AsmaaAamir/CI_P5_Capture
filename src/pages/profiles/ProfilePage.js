@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Button, Image} from "react-bootstrap";
 import { useParams } from "react-router";
-import InfiniteScroll  from "react-infinite-scroll-component";
+//import InfiniteScroll  from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useProfileData, useSetProfileData, } from "../../contexts/ProfileDataContext";
 //import { ProfileEditDropdown } from "../../components/MoreDropdown";
-import { fetchMoreData } from "../../utils/utils";
+//import { fetchMoreData } from "../../utils/utils";
 import styles from "../../styles/ProfilePage.module.css";
-import Post from "../posts/Post";
-import NoResult from "../../assets/no-result.png";
+//import Post from "../posts/Post";
+//import NoResult from "../../assets/no-result.png";
 
 function ProfilePage() {
     const [hasLoaded, setHasLoaded] = useState(false);
-    const [profilePosts, setProfilePosts] = useState ({ results : [] });
-
     const currentUser = useCurrentUser();
     const { id } = useParams();
 
@@ -32,16 +30,13 @@ function ProfilePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [{ data: pageProfile }, { data: profilePosts}] = 
-                await Promise.all([
-                    axiosReq.get(`/profile/${id}/`),
-                    axiosReq.get(`/posts/?owner__profile=${id}`),
+                const [{ data: pageProfile }] = await Promise.all([
+                    axiosReq.get(`/profiles/${id}/`),
                 ]);
                 setProfileData((prevState) => ({
                     ...prevState,
                     pageProfile: { results: [pageProfile] },
                 }));
-                setProfilePosts(profilePosts);
                 setHasLoaded(true);
             } catch (err) {
               // console.log(err);
@@ -49,7 +44,8 @@ function ProfilePage() {
         }; fetchData();
     }, [id, setProfileData]);
     
-    /*  User Profile Information Display */
+    /*  User Profile Information Display e.g how many post they have or 
+    number of follower and hoe many peope they follow */
     const mainProfile = (
         <>
             <Row noGutter className="px-3 text-center">
@@ -87,31 +83,19 @@ function ProfilePage() {
                         </Button>
                         ))}
                     </Col>
-                    {profile?.content && <Col className="p-3">{profile.content}</Col>}
-                </Row>
+                    {profile?.content && <Col className="p-3">{profile.content}
+                </Col>}
+            </Row>
         </>
-        );
+    );
     
-    /* displaying users posts from the user */
+    /* displaying profile owner posts*/
     
     const mainProfilePosts = (
         <>
             <hr/> 
-            <p className="text-center">{profile?.owner}'s posts </p>
+            <p className="text-center">Profiel owners 's posts </p>
             <hr/>
-            {profilePosts.results.length ? (
-                <InfiniteScroll children={profilePosts.results.map((post) => (
-                    <Post key={post.id} {...post} setPosts={setProfilePosts} />
-                ))}
-                dataLength={profilePosts.results.length}
-                loader={<Asset spinner />}
-                hasMore={!!profilePosts.next}
-                next={() => fetchMoreData(profilePosts, setProfilePosts)}
-                />
-            ) : (
-                <Asset src={NoResult}
-                message={`No result were found, ${profile?.owner} has not posted yet.`} />
-            )}
         </>
     );
     return (

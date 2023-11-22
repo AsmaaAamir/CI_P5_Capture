@@ -28,3 +28,11 @@ i:hover{
     font-size: 1.6rem;
     color: rgb(234, 136, 17);
 }
+
+.FontH1{
+    color: rgb(234, 136, 17);
+    font-size: bolder;
+}
+.FontH3{
+    color: bisque;
+}

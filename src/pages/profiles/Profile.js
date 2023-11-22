@@ -13,16 +13,16 @@ const Profile = (props) => {
     const is_owner = currentUser?.username ===  owner;
 
     return(
-        <div className={`my-3 d-flex align-item-center ${mobile && "flex=column"}`}>
+        <div className={`my-3 d-flex align-item-center ${mobile && "flex-column"}`}>
             <div>
-                <Link to={`/profile/${id}`}className="align-self-center">
+                <Link to={`/profiles/${id}`} className="align-self-center">
                     <Avatar src={image} height={imageSize}/>
                 </Link>
             </div>
             <div className={`mx-2 ${styles.Break}`}>
                 <strong>{owner}</strong>
             </div>
-            <div className={`text=right ${!mobile && "ml-auto"}`}>
+            <div className={`text-right ${!mobile && "ml-auto"}`}>
                 {!mobile && currentUser && !is_owner && (following_id ? (
                     <Button className={`${btnStyles.Button} ${btnStyles.Follow}`} onClick={() => {}}>
                             Unfollow 
