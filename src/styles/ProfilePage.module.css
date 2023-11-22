@@ -12,3 +12,11 @@
    
     }
 }
+.ProfileTitle{
+    color:rgb(234, 136, 17);
+    font-size: bolder;
+}
+.ProfileCount{
+    font-size: 1rem;
+    color:bisque;
+}

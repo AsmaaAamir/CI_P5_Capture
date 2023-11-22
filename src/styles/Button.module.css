@@ -37,3 +37,10 @@
     color:rgb(11, 195, 236);
     background-color:rgb(60, 58, 58);
 }
+.ProfileFollow{
+    font-size: 1rem;
+    color:rgb(11, 195, 236);
+}
+.ProfileFollow:hover{
+    color:rgb(11, 195, 236);
+}

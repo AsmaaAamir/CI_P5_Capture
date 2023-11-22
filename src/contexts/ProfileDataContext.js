@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState} from "react";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
-import { followHelper, unfollowHelper } from "../utils/utils";
+//import { followHelper, unfollowHelper } from "../utils/utils";
 
 const ProfileDataContext = createContext();
 const SetProfileDataContext = createContext();
@@ -16,6 +16,9 @@ export const ProfileDataProvider = ({ children }) => {
     });
 
     const currentUser = useCurrentUser();
+    /* Allow users to make request to follow, send informtion
+    prpfile(id), and users clicked on follow, which would also 
+    update popular profile data */
 
     //const handleFollow = async (clickedProfile) => {
     //    try {
@@ -34,7 +37,7 @@ export const ProfileDataProvider = ({ children }) => {
     //        //console.log(err);
      //   }
   //  };
-
+    /* Allow user to unfollow by clicking unfollow button */
    // const handleUnfollow = async (clickedProfile) => {
         //ry {
          //   await axiosRes.delete(`/followers/${clickedProfile.following_id}/`);
@@ -56,7 +59,8 @@ export const ProfileDataProvider = ({ children }) => {
             //console.log(err);
     //    }     
   //  };
-
+    /* Collectes all the popular profile data and descending
+    in order to most followers the user has */
     useEffect(() => {
         const handleMount = async () => {
             try {
