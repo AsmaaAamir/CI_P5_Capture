@@ -10,7 +10,7 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { useProfileData, useSetProfileData, } from "../../contexts/ProfileDataContext";
 import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
-//import { EditProfileDropdown } from "../../components/MoreDropdown";
+import { EditProfileDropdown } from "../../components/MoreDropdown";
 import styles from "../../styles/ProfilePage.module.css";
 import NoResult from "../../assets/no-result.png";
 import btnStyles from "../../styles/Button.module.css";
@@ -52,6 +52,7 @@ function ProfilePage() {
     number of follower and how many people they follow */
     const mainProfile = (
         <>
+            {profile?.is_owner && <EditProfileDropdown id={profile?.id}/>}
             <Row noGutter className="px-3 text-center">
                 <Col lg={3} className="text-lg-left">
                     <Image className={styles.ProfileImage} roundedCircle src={profile?.image} />

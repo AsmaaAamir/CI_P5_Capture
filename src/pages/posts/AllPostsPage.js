@@ -5,7 +5,6 @@ import Post from "../posts/Post";
 import Asset from "../../components/Asset";
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
-import appStyles from "../../App.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styles from "../../styles/AllPostsPage.module.css";
 import { fetchMoreData } from "../../utils/utils";

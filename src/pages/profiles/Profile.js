@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import styles from "../../styles/Profile.module.css";
 import btnStyles from "../../styles/Button.module.css";
-import { useSetProfileData, handleFollow, handleUnfollow } from "../../contexts/ProfileDataContext";
+import { useSetProfileData} from "../../contexts/ProfileDataContext";
 
 const Profile = (props) => { 
     const { profile, mobile, imageSize = 55} = props;

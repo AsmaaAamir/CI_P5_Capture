@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
 import Comment from "../comments/Comment";
-import PopularProfiles from "../profiles/PopularProfiles";
+
 
 function PostPage() {
     const { id } = useParams();
