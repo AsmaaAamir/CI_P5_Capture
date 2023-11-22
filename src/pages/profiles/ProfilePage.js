@@ -57,7 +57,7 @@ function ProfilePage() {
                     <Image className={styles.ProfileImage} roundedCircle src={profile?.image} />
                 </Col>
                 <Col lg={6}>
-                    <h3 className="m-2">{profile?.owner}</h3>
+                    <h1 className="m-2">{profile?.owner}</h1>
                     <Row className="justify-content-center no-gutters">
                         <Col xs={3} className="my-2">
                             <div className={styles.ProfileCount}>{profile?.posts_count}</div>
@@ -98,7 +98,7 @@ function ProfilePage() {
     const mainProfilePosts = (
         <>
         <hr/> 
-        <p className="text-center">{profile?.owner}'s posts </p>
+        <h4 className="text-center">{profile?.owner}'s posts </h4>
         <hr/>
         {profilePosts.results.length ? (
             <InfiniteScroll children={profilePosts.results.map((post) => (
