@@ -16,7 +16,8 @@ import PageNotFound from "./components/PageNotFound";
 
 function App() {
     const currentUser = useCurrentUser();
-    
+    const profile_id = currentUser?.profile_id || "";
+
     return (
     <div className={styles.App}>
         <NavBar/>
@@ -30,8 +31,14 @@ function App() {
                 </Switch>
             ) : ( 
                 <Switch>
-                    <Route exact path="/" render={() => ( <AllPostsPage message="No results Found. Please try again"/>)}/>
-                    <Route exact path="/posts/addpost" render={ () => <AddPostForm/> }/>
+                    {/* Feed Icone route  */}
+                    <Route exact path="/feed" render={() => <AllPostsPage/> } />
+
+                    {/* Liked Icone route  */}
+                    <Route exact path="/liked" render={() => ( <AllPostsPage 
+                        message="No results Found. Please try again" 
+                        filter={`likes__owner_profile=${profile_id}&ordering=-likes_created_at&`}/> )}/>
+
                     <Route exact path="/posts/addpost" render={ () => <AddPostForm/> }/>
                     <Route exact path="/posts/:id" render={ () => <PostPage/> }/>
                     <Route exact path="/posts/:id/edit" render={ () => <EditPostForm/> }/>
