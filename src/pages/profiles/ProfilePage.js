@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Button, Image} from "react-bootstrap";
-import { useParams } from "react-router-dom";
-//import InfiniteScroll  from "react-infinite-scroll-component";
+import { Col, Row, Container, Button, Image, } from "react-bootstrap";
+import { useParams } from "react-router";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import Asset from "../../components/Asset";
 import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useProfileData, useSetProfileData, } from "../../contexts/ProfileDataContext";
-//import { ProfileEditDropdown } from "../../components/MoreDropdown";
-//import { fetchMoreData } from "../../utils/utils";
+import Post from "../posts/Post";
+import { fetchMoreData } from "../../utils/utils";
+//import { EditProfileDropdown } from "../../components/MoreDropdown";
 import styles from "../../styles/ProfilePage.module.css";
-//import Post from "../posts/Post";
-//import NoResult from "../../assets/no-result.png";
-import btnStyles from "../../styles/Button.module.css"; 
+import NoResult from "../../assets/no-result.png";
+import btnStyles from "../../styles/Button.module.css";
 
 function ProfilePage() {
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [profilePosts, setProfilePosts] = useState ({ results : []});
     const currentUser = useCurrentUser();
     const { id } = useParams();
-    const setProfileData = useSetProfileData();
+    const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
     const { pageProfile } = useProfileData();
-
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
     
@@ -30,13 +31,15 @@ function ProfilePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [{data: pageProfile}] = await Promise.all([
+                const [{data: pageProfile}, {data: profilePosts }] = await Promise.all([
                     axiosReq.get(`/profiles/${id}/`),
+                    axiosReq.get(`/posts/?owner_profile=${id}`),
                 ]);
                 setProfileData((prevState) => ({
                     ...prevState,
                     pageProfile: {results: [pageProfile]}
                 }));
+                setProfilePosts(profilePosts);
                 setHasLoaded(true);
             } catch(err){
                 //console.log(err)
@@ -74,12 +77,12 @@ function ProfilePage() {
                     {currentUser && !is_owner && (
                         profile?.following_id ? (
                             <Button className={`${btnStyles.Button} ${btnStyles.ProfileFollow}`}
-                                onClick={()=> {}} >
+                                onClick={()=> handleUnfollow(profile)} >
                                     Unfollow 
                             </Button>
                         ) : (
                             <Button className={`${btnStyles.Button} ${btnStyles.ProfileFollow}`}
-                            onClick={() => {}} >
+                            onClick={() => handleFollow(profile)} >
                                 Follow 
                         </Button>
                         ))}
@@ -94,10 +97,23 @@ function ProfilePage() {
     
     const mainProfilePosts = (
         <>
-            <hr/> 
-            <p className="text-center">Profiel owners 's posts </p>
-            <hr/>
-        </>
+        <hr/> 
+        <p className="text-center">{profile?.owner}'s posts </p>
+        <hr/>
+        {profilePosts.results.length ? (
+            <InfiniteScroll children={profilePosts.results.map((post) => (
+                <Post key={post.id} {...post} setPosts={setProfilePosts} />
+            ))}
+            dataLength={profilePosts.results.length}
+            loader={<Asset spinner />}
+            hasMore={!!profilePosts.next}
+            next={() => fetchMoreData(profilePosts, setProfilePosts)}
+            />
+        ) : (
+            <Asset src={NoResult}
+            message={`No results were found, ${profile?.owner} hasn't posted yet.`} />
+        )}
+    </>
     );
     return (
         <Row>
